@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title> · Discord Username  checker </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f5f9;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            padding: 2rem 1.5rem;
+            color: #0f172a;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #1e293b, #2d3a4f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        .settings-btn {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+        }
+
+        .settings-btn:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            color: #0f172a;
+            border-left: 4px solid #3b82f6;
+            padding-left: 0.75rem;
+        }
+
+        .token-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .token-input {
+            flex: 3;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 0.8rem 1.2rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .token-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 60px;
+            padding: 0.7rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #eef2ff;
+            color: #1e40af;
+        }
+
+        .btn-primary {
+            background: #0f172a;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e293b;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background: #f1f5f9;
+        }
+
+        .danger-btn {
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        .account-preview {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .acc-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            object-fit: cover;
+        }
+
+        .acc-info p {
+            font-size: 0.85rem;
+            color: #334155;
+            margin: 0.2rem 0;
+        }
+
+        .param-row {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            align-items: flex-end;
+        }
+
+        .param-group {
+            flex: 1;
+            min-width: 130px;
+        }
+
+        .param-group label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #5b6e8c;
+            margin-bottom: 0.3rem;
+        }
+
+        .param-group input {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .delay-row {
+            margin-top: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .delay-row label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 1rem;
+        }
+        .delay-row input {
+            width: 110px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 0.8rem 0;
+        }
+
+        .log-area {
+            background: #0f172a;
+            border-radius: 24px;
+            padding: 1rem;
+            max-height: 420px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .log-line {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
+        }
+        .log-available { color: #4ade80; }
+        .log-taken { color: #f87171; }
+        .log-failed { color: #94a3b8; }
+
+        .stats-line {
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            background: #f1f5f9;
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5b6e8c;
+            font-size: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+        }
+
+        .badge {
+            background: #eef2ff;
+            padding: 0.25rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        @media (max-width: 780px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            body { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1>discord scanner</h1>
+            <p>4‑letter · realtime · local</p>
+        </div>
+        <button class="settings-btn" id="openSettingsBtn">account & settings</button>
+    </div>
+
+    <div class="grid-2">
+        <!-- LEFT CARD: MAIN SCAN -->
+        <div class="card">
+            <div class="card-title">access token</div>
+            <div class="token-row">
+                <input type="password" id="tokenInput" class="token-input" placeholder="discord token (stays only in your browser)">
+                <button id="verifyTokenBtn" class="btn btn-primary">verify</button>
+            </div>
+            <div id="accountInfo" style="display: none;"></div>
+            
+            <div class="card-title" style="margin-top: 1rem;">scan parameters</div>
+            <div class="param-row">
+                <div class="param-group">
+                    <label>names count</label>
+                    <input type="number" id="scanCount" value="50" min="10" max="500" step="10">
+                </div>
+                <div class="param-group">
+                    <label>username length</label>
+                    <input type="number" id="nameLength" value="4" min="2" max="12">
+                </div>
+            </div>
+            <div class="delay-row">
+                <label>⏱️ delay (seconds) : </label>
+                <input type="number" id="delaySec" value="0.8" step="0.1" min="0.3" max="2.0">
+            </div>
+            <div class="action-buttons">
+                <button id="startScanBtn" class="btn btn-primary">▶ start scan</button>
+                <button id="stopScanBtn" class="btn" disabled>⏹ stop</button>
+            </div>
+            <div class="stats-line" id="statsPreview">
+                <span>📊 ready</span>
+            </div>
+        </div>
+
+        <!-- RIGHT CARD: LOGS + RESULTS -->
+        <div class="card">
+            <div class="card-title">live results (taken / available)</div>
+            <div class="log-area" id="logContainer">
+                <div class="log-line">waiting for check...</div>
+            </div>
+        </div>
+
+        <!-- FULL WIDTH: DEVELOPER -->
+        <div class="card full-width">
+            <div class="card-title">developed by Frezon </div>
+            <p style="color: #334155; font-size: 0.9rem;">tool for educational purpose · transparent scan · token never leaves browser</p>
+        </div>
+    </div>
+    <footer> 100% safe · real discord api results</footer>
+</div>
+
+<script>
+    // DOM elements
+    const tokenInput = document.getElementById('tokenInput');
+    const verifyBtn = document.getElementById('verifyTokenBtn');
+    const accountInfoDiv = document.getElementById('accountInfo');
+    const startBtn = document.getElementById('startScanBtn');
+    const stopBtn = document.getElementById('stopScanBtn');
+    const logContainer = document.getElementById('logContainer');
+    const statsPreview = document.getElementById('statsPreview');
+    const scanCountInput = document.getElementById('scanCount');
+    const nameLengthInput = document.getElementById('nameLength');
+    const delaySecInput = document.getElementById('delaySec');
+    const settingsBtn = document.getElementById('openSettingsBtn');
+
+    let activeToken = null;
+    let scanningActive = false;
+    let stopRequested = false;
+    let currentAbortController = null;
+    let stats = { checked: 0, available: 0, taken: 0, failed: 0 };
+
+    // Helper: generate username
+    function generateUsername(length) {
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        let out = '';
+        for (let i = 0; i < length; i++) {
+            out += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return out;
+    }
+
+    // API check
+    async function checkUsername(username, token, signal) {
+        try {
+            const res = await fetch('https://discord.com/api/v9/users/@me/pomelo-attempt', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: username }),
+                signal: signal
+            });
+            if (res.status === 200) {
+                const data = await res.json();
+                return data.taken === false ? 'available' : 'taken';
+            } else if (res.status === 429) {
+                return 'rate_limit';
+            } else {
+                return 'failed';
+            }
+        } catch (err) {
+            if (err.name === 'AbortError') return 'stopped';
+            return 'failed';
+        }
+    }
+
+    function addLog(username, status) {
+        const line = document.createElement('div');
+        line.className = 'log-line';
+        if (status === 'available') {
+            line.innerHTML = `<span class="log-available">✅ AVAILABLE : ${username}</span>`;
+            stats.available++;
+        } else if (status === 'taken') {
+            line.innerHTML = `<span class="log-taken">❌ TAKEN : ${username}</span>`;
+            stats.taken++;
+        } else if (status === 'failed') {
+            line.innerHTML = `<span class="log-failed">⚠️ FAILED : ${username}</span>`;
+            stats.failed++;
+        } else {
+            line.innerHTML = `<span>⏸️ ${username}</span>`;
+        }
+        logContainer.appendChild(line);
+        line.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        stats.checked++;
+        statsPreview.innerHTML = `<span>🔍 scanned: ${stats.checked}</span> <span>✅ avail: ${stats.available}</span> <span>❌ taken: ${stats.taken}</span> <span>⚠️ fail: ${stats.failed}</span>`;
+    }
+
+    function clearLogs() {
+        logContainer.innerHTML = '';
+        stats = { checked: 0, available: 0, taken: 0, failed: 0 };
+        statsPreview.innerHTML = `<span>📊 ready — start new scan</span>`;
+    }
+
+    // render account (with avatar, email, ip, change token)
+    async function renderAccountInfo(token) {
+        try {
+            const res = await fetch('https://discord.com/api/v9/users/@me', {
+                headers: { 'Authorization': token }
+            });
+            if (!res.ok) throw new Error();
+            const user = await res.json();
+            let ip = 'unable to fetch';
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                ip = ipData.ip;
+            } catch(e) { ip = 'private / blocked'; }
+            const avatarUrl = user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=80` : 'https://cdn.discordapp.com/embed/avatars/0.png';
+            accountInfoDiv.style.display = 'block';
+            accountInfoDiv.innerHTML = `
+                <div class="account-preview">
+                    <img class="acc-avatar" src="${avatarUrl}" alt="avatar">
+                    <div class="acc-info">
+                        <p><strong>${user.username}#${user.discriminator}</strong> &nbsp; <span class="badge">id: ${user.id}</span></p>
+                        <p> ${user.email || 'hidden email'}</p>
+                        <p>public ip: ${ip} (local)</p>
+                        <button id="logoutTokenBtn" class="btn btn-outline" style="margin-top: 8px;">🗑️ change token / logout</button>
+                    </div>
+                </div>
+            `;
+            const logoutBtn = document.getElementById('logoutTokenBtn');
+            if (logoutBtn) logoutBtn.onclick = () => {
+                activeToken = null;
+                accountInfoDiv.style.display = 'none';
+                tokenInput.value = '';
+                alert('token cleared · you can insert a new one');
+            };
+            return true;
+        } catch(e) {
+            accountInfoDiv.style.display = 'block';
+            accountInfoDiv.innerHTML = `<div class="account-preview"><p>❌ invalid token · please check</p><button id="logoutTokenBtn" class="btn btn-outline">clear</button></div>`;
+            const clearBtn = document.getElementById('logoutTokenBtn');
+            if (clearBtn) clearBtn.onclick = () => { tokenInput.value = ''; accountInfoDiv.style.display = 'none'; activeToken=null; };
+            return false;
+        }
+    }
+
+    verifyBtn.onclick = async () => {
+        const rawToken = tokenInput.value.trim();
+        if (!rawToken) { alert('enter token'); return; }
+        activeToken = rawToken;
+        const ok = await renderAccountInfo(activeToken);
+        if (!ok) activeToken = null;
+    };
+
+    // scan process (with custom delay)
+    async function startScanProcess(totalCount, nameLength, delaySec) {
+        if (!activeToken) { alert('verify token first'); return false; }
+        scanningActive = true;
+        stopRequested = false;
+        clearLogs();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        const abortCtrl = new AbortController();
+        currentAbortController = abortCtrl;
+        let scanned = 0;
+
+        while (scanned < totalCount && !stopRequested) {
+            const username = generateUsername(nameLength);
+            const status = await checkUsername(username, activeToken, abortCtrl.signal);
+            if (status === 'stopped') break;
+            addLog(username, status);
+            scanned++;
+            if (scanned < totalCount && !stopRequested) {
+                await new Promise(r => setTimeout(r, delaySec * 1000));
+            }
+            if (status === 'rate_limit') {
+                addLog('⚠️ rate limit reached, auto-stop', 'failed');
+                break;
+            }
+        }
+        scanningActive = false;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        currentAbortController = null;
+        if (!stopRequested) addLog('── scan finished ──', 'failed');
+        else addLog('── manual stop ──', 'failed');
+        return true;
+    }
+
+    startBtn.onclick = async () => {
+        if (scanningActive) { alert('scan already running'); return; }
+        const total = parseInt(scanCountInput.value);
+        const length = parseInt(nameLengthInput.value);
+        const delay = parseFloat(delaySecInput.value);
+        if (isNaN(total) || isNaN(length) || isNaN(delay) || total < 1 || length < 2 || delay < 0.2) {
+            alert('check parameters (count ≥1, length≥2, delay≥0.2)');
+            return;
+        }
+        await startScanProcess(total, length, delay);
+    };
+
+    stopBtn.onclick = () => {
+        if (!scanningActive) return;
+        stopRequested = true;
+        if (currentAbortController) currentAbortController.abort();
+        stopBtn.disabled = true;
+    };
+
+    // settings modal / panel (opens same info)
+    settingsBtn.onclick = () => {
+        alert('⚙️ Settings & info\n\n- custom delay (seconds)\n- token stays in your browser only\n- available usernames are real from discord API\n- use .csv / ctrl+c to save logs\n- developed by Frezon ');
+    };
+</script>
+</body>
+</html>
